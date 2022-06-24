@@ -1,3 +1,6 @@
+# Remote manager client
+# by Leonty Kopytov @leontyko
+
 from fastapi import FastAPI, HTTPException
 import uvicorn
 import json
