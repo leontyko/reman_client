@@ -161,4 +161,4 @@ async def openLink(cmd:str):
 	return json_data
 
 if __name__ == "__main__":
-	uvicorn.run("reman-client:app", host="0.0.0.0", port=options["listen_port"],log_level=options["log_level"])
+	uvicorn.run("reman_client:app", host="0.0.0.0", port=options["listen_port"],log_level=options["log_level"])
