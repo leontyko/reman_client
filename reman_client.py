@@ -105,6 +105,8 @@ async def volManagement(cmd:str, point:int=1):
 		elif cmd == "max":
 			for i in range(50):
 				pyautogui.press("volumeup")
+		result = "ok"
+		detail = ""
 	else:
 		result = "Error"
 		detail = "Command does not exist"
