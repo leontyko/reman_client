@@ -16,7 +16,8 @@ options = {
 	"log_level": "info", # уровень логирования uvicorn: critical, error, warning, info, debug, trace
 	"browser_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s", # путь до браузера, если хотим открывать не дефолтный
     "applications": { # список приложений на устройстве
-        "notepad": "notepad.exe", # указываем в формате: название - команда для запуска
+		#Пример: (указываем в формате: название - команда для запуска)
+        # "notepad": "notepad.exe",
     },
 	"links": { # список подготовленных ссылок (линков) на устройстве
 		"youtube": "youtube.com", # указываем в формате: название - ссылка
