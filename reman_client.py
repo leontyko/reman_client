@@ -78,15 +78,15 @@ async def pwrManagement(cmd:str, delay:int=0):
 	if cmd in power_cmds:
 		if pwr_task is None:
 			result = "ok"
-			detail = "Power task created successfully"
+			detail = "Задача успешно создана"
 		else:
 			pwr_task.cancel()
 			result = "ok"
-			detail = "Power task recreated successfully"
+			detail = "Задача создана заново"
 		pwr_task = asyncio.create_task(doPowerTask(cmd, delay), name=cmd)
 	else:
 		result = "Error"
-		detail = "Command does not exist"
+		detail = "Команда не найдена"
 	json_data = json.dumps({"result": result, "detail": detail})
 	return json_data
 	
@@ -109,7 +109,7 @@ async def volManagement(cmd:str, point:int=1):
 		detail = ""
 	else:
 		result = "Error"
-		detail = "Command does not exist"
+		detail = "Команда не найдена"
 	json_data = json.dumps({"result": result, "detail": detail})
 	return json_data
 	
@@ -119,10 +119,10 @@ async def cancelPowerTask():
 	if pwr_task is not None:
 		pwr_task.cancel()
 		result = "ok"
-		detail = "Power task cancelled successfully"
+		detail = "Задача успешно отменена"
 	else:
 		result = "Error"
-		detail = "Task does not running"
+		detail = "Нет запущенных задач"
 	json_data = json.dumps({"result": result, "detail": detail})
 	return json_data
     
@@ -130,15 +130,15 @@ async def cancelPowerTask():
 async def startApp(cmd:str, delay:int=0):
 	apps = options['applications']
 	result = "Error"
-	detail = "Application does not exist"
+	detail = "Приложение не найдено"
 	for app in apps:
 		if app == cmd:
 			try:
 				subprocess.Popen(cmd)
 				result = "ok"
-				detail = "Application runned"
+				detail = "Приложение выполнено"
 			except:
-				detail = "Application not runned"
+				detail = "Ошибка запуска приложения"
 	json_data = json.dumps({"result": result, "detail": detail})
 	return json_data
 
@@ -150,15 +150,15 @@ async def openLink(cmd:str):
 	try:
 		webbrowser.get(browser_path).open(cmd)
 		result = "ok"
-		detail = "URL opened with browser path"
+		detail = "Ссылка открыта в бразуре"
 	except:
 		try:
 			webbrowser.open(cmd) #If not get browser then open default
 			result = "ok"
-			detail = "URL opened with default browser"
+			detail = "Ссылка открыта в стандартном браузере"
 		except:
 			result = "Error"
-			detail = "Browser opening error"
+			detail = "Ошибка открытия браузера"
 	json_data = json.dumps({"result": result, "detail": detail})
 	return json_data
 
