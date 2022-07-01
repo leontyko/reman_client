@@ -8,7 +8,7 @@ import os.path
 import asyncio
 import subprocess
 import pyautogui
-import platform
+from sys import platform
 import webbrowser
 
 options = {
@@ -16,8 +16,8 @@ options = {
 	"log_level": "info", # уровень логирования uvicorn: critical, error, warning, info, debug, trace
 	"browser_path": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s", # путь до браузера, если хотим открывать не дефолтный
     "applications": { # список приложений на устройстве
-		#Пример: (указываем в формате: название - команда для запуска)
-        # "notepad": "notepad.exe",
+		# Пример: (указываем в формате: название - команда для запуска)
+        "notepad": "notepad.exe",
     },
 	"links": { # список подготовленных ссылок (линков) на устройстве
 		"youtube": "youtube.com", # указываем в формате: название - ссылка
@@ -32,20 +32,27 @@ async def doPowerTask(cmd, delay):
 	global pwr_task
 	try:
 		await asyncio.sleep(delay*60) # так как задержка в секундах - умножаем на 60
-		if platform.system()=="Windows":
+		if platform == "win32": # Windows
 			if cmd == "shutdown":
 				subprocess.Popen(["shutdown", "/s", "/t", "0"])
 			elif cmd == "reboot":
 				subprocess.Popen(["shutdown", "/r"])
 			elif cmd == "sleep":
 				subprocess.Popen(["shutdown", "/h"])
-		else: 
+		elif platform == "linux" or platform == "linux2": # Linux
 			if cmd == "shutdown":
 				subprocess.Popen(["shutdown", "-h", "now"])
 			elif cmd == "reboot":
 				subprocess.Popen(["reboot"])
 			elif cmd == "sleep":
 				subprocess.Popen(["pm-suspend"])
+		elif platform == "darwin": # Mac
+			if cmd == "shutdown":
+				subprocess.Popen(["shutdown", "-h", "now"])
+			elif cmd == "reboot":
+				subprocess.Popen(["shutdown", "-r", "now"])
+			elif cmd == "sleep":
+				subprocess.Popen(["shutdown", "-s", "now"])
 	except asyncio.CancelledError:
 		pwr_task = None
 	finally:
@@ -151,7 +158,7 @@ async def openLink(cmd:str):
 	try:
 		webbrowser.get(browser_path).open(cmd)
 		result = "ok"
-		detail = "Ссылка открыта в бразуре"
+		detail = "Ссылка открыта в браузере"
 	except:
 		try:
 			webbrowser.open(cmd) #If not get browser then open default
@@ -160,6 +167,19 @@ async def openLink(cmd:str):
 		except:
 			result = "Error"
 			detail = "Ошибка открытия браузера"
+	json_data = json.dumps({"result": result, "detail": detail})
+	return json_data
+
+@app.get("/media")
+async def media(cmd:str):
+	media_cmds = ["playpause", "nexttrack", "prevtrack"]
+	if cmd in media_cmds:
+		pyautogui.press(cmd)
+		result = "ok"
+		detail = "Команда выполнена"
+	else:
+		result = "Error"
+		detail = "Команда не найдена"
 	json_data = json.dumps({"result": result, "detail": detail})
 	return json_data
 
