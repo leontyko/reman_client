@@ -60,7 +60,7 @@ async def doPowerTask(cmd, delay):
 
 @app.get("/")
 async def home():
-	json_data = json.dumps({"result": "ok"})
+	json_data = json.dumps([{"result": "ok"}])
 	return json_data
 		
 @app.get("/applications")
@@ -68,7 +68,7 @@ async def app_list():
 	applist = []
 	for app in options['applications']:
 		applist.append(app)
-	json_data = json.dumps({"result": "ok", "applications": applist})
+	json_data = json.dumps([{"result": "ok", "applications": applist}])
 	return json_data
 
 @app.get("/links")
@@ -76,7 +76,7 @@ async def url_list():
 	linklist = []
 	for link in options['links']:
 		linklist.append(link)
-	json_data = json.dumps({"result": "ok", "links": linklist})
+	json_data = json.dumps([{"result": "ok", "links": linklist}])
 	return json_data
 	
 @app.get("/power")
@@ -95,7 +95,7 @@ async def pwrManagement(cmd:str, delay:int=0):
 	else:
 		result = "Error"
 		detail = "Команда не найдена"
-	json_data = json.dumps({"result": result, "detail": detail})
+	json_data = json.dumps([{"result": result, "detail": detail}])
 	return json_data
 	
 @app.get("/volume")
@@ -118,7 +118,7 @@ async def volManagement(cmd:str, point:int=1):
 	else:
 		result = "Error"
 		detail = "Команда не найдена"
-	json_data = json.dumps({"result": result, "detail": detail})
+	json_data = json.dumps([{"result": result, "detail": detail}])
 	return json_data
 	
 @app.get("/cancel")
@@ -131,7 +131,7 @@ async def cancelPowerTask():
 	else:
 		result = "Error"
 		detail = "Нет запущенных задач"
-	json_data = json.dumps({"result": result, "detail": detail})
+	json_data = json.dumps([{"result": result, "detail": detail}])
 	return json_data
     
 @app.get("/application")
@@ -147,7 +147,7 @@ async def startApp(cmd:str, delay:int=0):
 				detail = "Приложение выполнено"
 			except:
 				detail = "Ошибка запуска приложения"
-	json_data = json.dumps({"result": result, "detail": detail})
+	json_data = json.dumps([{"result": result, "detail": detail}])
 	return json_data
 
 @app.get("/browser")
@@ -167,7 +167,7 @@ async def openLink(cmd:str):
 		except:
 			result = "Error"
 			detail = "Ошибка открытия браузера"
-	json_data = json.dumps({"result": result, "detail": detail})
+	json_data = json.dumps([{"result": result, "detail": detail}])
 	return json_data
 
 @app.get("/media")
@@ -180,7 +180,7 @@ async def media(cmd:str):
 	else:
 		result = "Error"
 		detail = "Команда не найдена"
-	json_data = json.dumps({"result": result, "detail": detail})
+	json_data = json.dumps([{"result": result, "detail": detail}])
 	return json_data
 
 if __name__ == "__main__":
